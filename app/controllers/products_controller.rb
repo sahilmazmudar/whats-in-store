@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-	respond_to :html, :js, :xml, :json
+	respond_to :json
 
 	# GET /products
 	def index
@@ -25,12 +25,12 @@ class ProductsController < ApplicationController
 		quantity = params.has_key?(:quantity) ? params[:quantity].to_i : 1
 		if @product.inventory_count < 1
 			respond_to do |format|
-				response = {status: 500, message: "Failed. Product out of stock.", product: @products}
+				response = {status: 500, message: "Failed. Product out of stock.", product: @product}
 			format.json {render json: response}
 			end
 		elsif @product.inventory_count < quantity
 			respond_to do |format|
-				response = {status: 200, message: "Failed. Inventory less than requested quantity.", product: @product}
+				response = {status: 500, message: "Failed. Inventory less than requested quantity.", product: @product}
 				format.json {render json: response}
 			end
 		else
@@ -44,9 +44,10 @@ class ProductsController < ApplicationController
 
 	# POST /products
 	def create
-		Product.restock
+		params[:restock_new] == "true" ? Product.restock(restock_new= true) : Product.restock
 		respond_to do |format|
-			format.json {render json: @product}
+			response = {status: 200, message: "Success. Restocked store."}
+			format.json {render json: response}
 		end
 	end
 end
