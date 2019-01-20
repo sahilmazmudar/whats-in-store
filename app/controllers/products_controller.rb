@@ -30,7 +30,7 @@ class ProductsController < ApplicationController
 			end
 		elsif @product.inventory_count < quantity
 			respond_to do |format|
-				response = {status: 500, message: "Failed. Inventory less than requested quantity.", product: @product}
+				response = {status: 500, message: "Failed. Current product inventory count #{@product.inventory_count} is less than quantity requested #{quantity}.", product: @product}
 				format.json {render json: response}
 			end
 		else

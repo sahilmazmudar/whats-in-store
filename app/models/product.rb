@@ -10,7 +10,7 @@ class Product < ApplicationRecord
 				Product.delete_all
 				Product.reset_pk_sequence
 				5.times do
-					random_title = ('a'..'z').to_a.shuffle[0,8].join
+					random_title = ('a'..'z').to_a.shuffle[0,7].join
 					random_price = rand 2..500
 					random_inventory = rand 2..50
 					product = Product.create(title: "Product " + random_title,
