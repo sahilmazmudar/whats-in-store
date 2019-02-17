@@ -1,5 +1,6 @@
 # Product table
 Product.destroy_all
+Product.reset_pk_sequence
 5.times do
 	random_title = ('a'..'z').to_a.shuffle[0,7].join
 	random_price = rand 2..500
